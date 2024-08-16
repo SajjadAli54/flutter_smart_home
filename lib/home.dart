@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_home/app_bar.dart';
 import 'package:flutter_smart_home/smart_device_box.dart';
+import 'package:flutter_smart_home/title.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,8 +11,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final horizontalpadding = 40.0;
-  final verticalpadding = 25.0;
+  final horizontalpadding = 20.0;
+  final verticalpadding = 10.0;
 
   final mySmartDevices = [
     // [name, icon path, power status]
@@ -34,37 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: horizontalpadding, vertical: verticalpadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset(
-                    "assets/icons/menu.png",
-                    height: 45,
-                    color: Colors.grey[800],
-                  ),
-                  Icon(
-                    Icons.person,
-                    size: 45,
-                    color: Colors.grey[800],
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: horizontalpadding, vertical: verticalpadding),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Welcome Home"),
-                  Text("WATCH KOKO", style: TextStyle(fontSize: 40))
-                ],
-              ),
-            ),
+            const MyAppBar(),
+            const SizedBox(height: 10),
+            const MyTitle(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalpadding),
               child: Divider(
@@ -82,16 +56,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
                 child: GridView.builder(
-              padding: const EdgeInsets.all(25.0),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: mySmartDevices.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 1 / 1.3),
+                crossAxisCount: 2,
+              ),
               itemBuilder: (context, index) => SmartDeviceBox(
-                  deviceName: mySmartDevices[index][0] as String,
-                  deviceStatus: mySmartDevices[index][2] as bool,
-                  deviceIcon: mySmartDevices[index][1] as String,
-                  onChange: (value) => handlePowerStatusChange(value, index)),
+                deviceName: mySmartDevices[index][0] as String,
+                deviceStatus: mySmartDevices[index][2] as bool,
+                deviceIcon: mySmartDevices[index][1] as String,
+                onChange: (value) => handlePowerStatusChange(value, index),
+              ),
             ))
           ],
         ),
